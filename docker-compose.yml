@@ -1,0 +1,35 @@
+version: '3.8'
+
+networks:
+  grafana:
+  timescaledb:
+
+services:
+  timescaledb:
+    image: timescale/timescaledb-ha:pg15-latest
+    command: postgres -c shared_preload_libraries=timescaledb
+    networks:
+      - grafana
+      - timescaledb
+    ports:
+      - "5432:5432"
+    environment:
+      - PGDATA=/var/lib/postgresql/data/timescaledb
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+  grafana:
+    image: grafana/grafana:10.0.2
+    networks:
+      - grafana
+      - timescaledb
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_BASIC_ENABLED=false
+    volumes:
+      - ./grafana:/etc/grafana/provisioning/
+

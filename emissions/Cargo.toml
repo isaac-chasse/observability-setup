@@ -1,0 +1,20 @@
+[package]
+name = "emissions"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "emit_process_1"
+path = "./src/bin/emit_process_1.rs"
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+chrono = "0.4.31"
+dotenv = "0.15.0"
+rand = "0.8.5"
+sqlx = { version = "0.7.3", features = ["runtime-tokio-rustls", "postgres", "chrono"] }
+tokio = { version="1.35.0", features=["full"] }
+tracing = "0.1.40"
+tracing-log = "0.2.0"
+tracing-subscriber = { version="0.3.18", features=["env-filter"] }
+
