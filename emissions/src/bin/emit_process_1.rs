@@ -29,6 +29,9 @@ async fn main() {
     stream_data_to_database(pool).await;
 }
 
+/// Uses [`sqlx`] to asynchronously stream random numbers produced by a generator. 
+///
+/// Note: We manually sleep this process by 1000ms to prevent network queue overload.
 async fn stream_data_to_database(pool: PgPool) {
     // Create a loop to continuously stream data
     loop {
@@ -56,6 +59,9 @@ async fn stream_data_to_database(pool: PgPool) {
     }
 }
 
+/// Sets up a [`tracing_subscriber`] which relies on env variables to set up.
+///
+/// Note: The expectation is that you use [`tracing::Level::DEBUG`] for this example.
 fn setup_tracing() {
     // Set up tracing subscriber
     let subscriber = FmtSubscriber::builder()
